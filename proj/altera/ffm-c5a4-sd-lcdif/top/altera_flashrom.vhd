@@ -61,6 +61,8 @@ begin
 --  flash_wpn   <= '1';
 --  flash_holdn <= '1';
 
+  ftdi_bdbus2 <= ftdi_bdbus1; -- loopback MISO-MOSI
+
   led(0)      <= ftdi_bdbus0;
   led(1)      <= ftdi_bdbus1;
   led(2)      <= ftdi_bdbus3;
