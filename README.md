@@ -20,4 +20,6 @@ the FT2232/4232 pins are labeled as ther JTAG or RS232 role.
 | HOLDn |  IO3  |  VCC   | VCC  |  VCC  |
 | GND   |  GND  |  GND   | GND  |  GND  |
 
-Example core for altera.
+Attempt for altera, doesn't work because
+it is not known to author how to set compiler
+options to make SPI FLASH passthru.
