@@ -13,14 +13,18 @@ port
 (
   clock_50a: in std_logic;
   -- FT2232/4232
-  --uart1_dbus0: in  std_logic; -- dbus0
-  --uart1_dbus1: in  std_logic; -- dbus1
-  --uart1_dbus2: out std_logic; -- dbus2
-  --uart1_dbus3: in  std_logic; -- dbus3
-  uart1_rxd  : in  std_logic; -- dbus0
-  uart1_txd  : in  std_logic; -- dbus1
-  uart1_cts  : out std_logic; -- dbus2
-  uart1_rts  : in  std_logic; -- dbus3
+--  uart1_rxd  : in  std_logic; -- bdbus0
+--  uart1_txd  : in  std_logic; -- bdbus1
+--  uart1_cts  : out std_logic; -- bdbus2
+--  uart1_rts  : in  std_logic; -- bdbus3
+  ftdi_bdbus0  : in  std_logic;
+  ftdi_bdbus1  : in  std_logic;
+  ftdi_bdbus2  : out std_logic;
+  ftdi_bdbus3  : in  std_logic;
+--  ftdi_cdbus0  : in  std_logic;
+--  ftdi_cdbus1  : in  std_logic;
+--  ftdi_cdbus2  : out std_logic;
+--  ftdi_cdbus3  : in  std_logic;
   -- FLASH (SPI)
 --  dclk       : out std_logic; -- clk
 --  as_data0   : out std_logic; -- mosi
@@ -35,6 +39,11 @@ end;
 
 architecture struct of altera_flashrom is
   alias clk         : std_logic is clock_50a  ;
+
+--  alias ftdi_bdbus0   : std_logic is uart1_rxd  ;
+--  alias ftdi_bdbus1   : std_logic is uart1_txd  ;
+--  alias ftdi_bdbus2   : std_logic is uart1_cts  ;
+--  alias ftdi_bdbus3   : std_logic is uart1_rts  ;
 
 --  alias flash_clk   : std_logic is dclk       ;
 --  alias flash_mosi  : std_logic is as_data0   ;
@@ -52,6 +61,12 @@ begin
 --  flash_wpn   <= '1';
 --  flash_holdn <= '1';
 
-  led         <= "010";
+  led(0)      <= ftdi_bdbus0;
+  led(1)      <= ftdi_bdbus1;
+  led(2)      <= ftdi_bdbus3;
+
+--  led(0)      <= ftdi_cdbus0;
+--  led(1)      <= ftdi_cdbus1;
+--  led(2)      <= ftdi_cdbus3;
 
 end struct;
