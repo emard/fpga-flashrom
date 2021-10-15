@@ -58,17 +58,6 @@ set_location_assignment PIN_N16 -to UART3_TXD # DDBUS1
 # FIO_10 H14 A45 CCTS
 # FIO_11 G17 A46 CRTS
 
-#set_location_assignment PIN_L22 -to FTDI_BDBUS1
-#set_location_assignment PIN_K22 -to FTDI_BDBUS0
-#set_location_assignment PIN_K21 -to FTDI_BDBUS2
-#set_location_assignment PIN_J17 -to FTDI_BDBUS3
-#set_location_assignment PIN_R22 -to FTDI_CDBUS1
-#set_location_assignment PIN_N21 -to FTDI_CDBUS0
-#set_location_assignment PIN_M22 -to FTDI_CDBUS2
-#set_location_assignment PIN_M21 -to FTDI_CDBUS3
-#set_location_assignment PIN_M16 -to FTDI_DDBUS1
-#set_location_assignment PIN_N16 -to FTDI_DDBUS0 
-
 #
 #	SPI-Flash & external programming
 #
