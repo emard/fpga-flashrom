@@ -137,13 +137,16 @@ asm.chg:
 # Programming the device
 ###################################################################
 
-upload: program
+upload: prog
 
-program: $(PROJECT).sof
+prog: $(PROJECT).sof
 	$(quartus_env); quartus_pgm --no_banner --mode=jtag -o "P;$(PROJECT).sof"
 
-program_ocd: $(PROJECT).svf
+prog_ocd: $(PROJECT).svf
 	openocd --file=$(OPENOCD_INTERFACE) --file=$(OPENOCD_BOARD)
+
+prog_ofl: $(PROJECT).svf
+	openFPGALoader -c ft4232 $(PROJECT).svf
 
 flash: $(PROJECT).jic
 	$(quartus_env); quartus_pgm --no_banner --mode=jtag -o "IP;$(PROJECT).jic"
