@@ -25,16 +25,16 @@ set_location_assignment PIN_T8 -to LED[2]
 #	UARTs
 #	UART3 is console port
 #
-set_location_assignment PIN_L22 -to UART1_TXD # BDBUS1
 set_location_assignment PIN_K22 -to UART1_RXD # BDBUS0
+set_location_assignment PIN_L22 -to UART1_TXD # BDBUS1
 set_location_assignment PIN_K21 -to UART1_CTS # BDBUS2
 set_location_assignment PIN_J17 -to UART1_RTS # BDBUS3
-set_location_assignment PIN_R22 -to UART2_TXD # CDBUS1
 set_location_assignment PIN_N21 -to UART2_RXD # CDBUS0
+set_location_assignment PIN_R22 -to UART2_TXD # CDBUS1
 set_location_assignment PIN_M22 -to UART2_CTS # CDBUS2
 set_location_assignment PIN_M21 -to UART2_RTS # CDBUS3
-set_location_assignment PIN_M16 -to UART3_RXD # DDBUS1
-set_location_assignment PIN_N16 -to UART3_TXD # DDBUS0 
+set_location_assignment PIN_M16 -to UART3_RXD # DDBUS0
+set_location_assignment PIN_N16 -to UART3_TXD # DDBUS1
 
 #set_location_assignment PIN_L22 -to FTDI_BDBUS1
 #set_location_assignment PIN_K22 -to FTDI_BDBUS0
