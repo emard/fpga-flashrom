@@ -18,7 +18,9 @@ set_location_assignment PIN_M9 -to CLOCK_50D
 set_location_assignment PIN_T22 -to PON_RESET_N
 set_location_assignment PIN_R16 -to PS_SRST_N
 #
-set_location_assignment PIN_R6 -to LED
+set_location_assignment PIN_R6 -to LED[0]
+set_location_assignment PIN_R7 -to LED[1]
+set_location_assignment PIN_T8 -to LED[2]
 #
 #	UARTs
 #	UART3 is console port

@@ -29,7 +29,7 @@ port
 --  epcs_data3 : out std_logic; -- 1
 --  epcs_ncso  : out std_logic;
   -- LED
-  led: out std_logic
+  led        : out std_logic_vector(2 downto 0)
 );
 end;
 
@@ -52,6 +52,6 @@ begin
 --  flash_wpn   <= '1';
 --  flash_holdn <= '1';
 
-  led         <= '1';
+  led         <= "010";
 
 end struct;
