@@ -38,3 +38,9 @@ include ../include/altera.mk
 # Setup your sources here
 SRCS = \
 top/altera_flashrom.vhd \
+
+test:
+	/usr/sbin/flashrom -p ft2232_spi:type=4232H,port=B,divisor=100000
+
+testc:
+	/usr/sbin/flashrom -p ft2232_spi:type=4232H,port=C,divisor=100000
