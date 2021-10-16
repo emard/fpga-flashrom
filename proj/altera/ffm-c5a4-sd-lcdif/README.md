@@ -1,6 +1,6 @@
 # Programming with Altera USB Blaster
 
-Board DIP switch positions
+Board DIP switch positions for FT4232 or Altera USB Blaster
 
     USB HDMI microUSB
 
@@ -14,7 +14,7 @@ Board DIP switch positions
 
        HDMI SD
 
-Module DIP switch positions
+Module DIP switch positions for Altera USB Blaster
 
     1      1      1        1
     | o|   |o |   | o|     |oo|
