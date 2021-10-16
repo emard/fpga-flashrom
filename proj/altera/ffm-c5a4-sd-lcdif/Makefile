@@ -26,6 +26,12 @@ OPENOCD_SVF_CLOCK=33MHz
 # JTAG ID 0x02b050dd
 # /opt/altera/intelFPGA_lite/20.1/quartus/common/devinfo/programmer/sfl_enhanced_01_02b050dd.sof
 
+# MODULE DIP SWITCH POSITIONS for "make flash"
+# 1      1      1        1
+# | o|   |o |   | o|     |oo|
+# |o |   | o|   |o |     |  |
+#    M0 M1  M2 M3  M4    SW4
+
 ###################################################################
 #
 # Quartus shell environment vars

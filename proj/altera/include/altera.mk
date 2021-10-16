@@ -148,6 +148,12 @@ prog_ocd: $(PROJECT).svf
 prog_ofl: $(PROJECT).svf
 	openFPGALoader -c ft4232 $(PROJECT).svf
 
+# MODULE DIP SWITCH POSITIONS for "make flash"
+# 1      1      1        1
+# | o|   |o |   | o|     |oo|
+# |o |   | o|   |o |     |  |
+#    M0 M1  M2 M3  M4    SW4
+
 flash: $(PROJECT).jic
 	$(quartus_env); quartus_pgm --no_banner --mode=jtag -o "IP;$(PROJECT).jic"
 	echo "Power cycle or Reset device to run"
