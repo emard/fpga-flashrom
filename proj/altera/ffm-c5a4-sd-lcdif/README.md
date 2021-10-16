@@ -1,4 +1,4 @@
-# Programming
+# Programming with Altera USB Blaster
 
 Board DIP switch positions
 
@@ -21,15 +21,16 @@ Module DIP switch positions
     |o |   | o|   |o |     |  |
        M0 M1  M2 M3  M4    SW4
 
-Board power up sequence
+Board power up sequence.
+Follow carefully, 12V switcher leaks 230V current
+and this sequence assures board has common GND before 230V.
 
-     1. Connect 12V switcher but don't yet plug it to 230V
-     2. Connect 10-pin Altera blaster but don't yet plug its mini USB to PC
-     3. Plug board micro USB FT4232 to PC USB port
-     4. Plug 230V to 12V switcher (green LED on)
-     5. Plug Altera blaster mini USB to PC (red and green LED on)
+     1. Connect 12V switcher to board but don't yet plug it to 230V
+     2. Connect 10-pin Altera USB Blaster to board but don't yet plug it to PC
+     3. Plug Altera USB Blaster to PC (Blaster RED and GREEN LED ON)
+     4. Plug 12V switcher to 230V (board GREEN LED ON)
 
-Power down sequence reverse than power up.
+Power down sequence is reverse of power up.
 Following commands should work then:
 
      make prog
