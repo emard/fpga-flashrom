@@ -160,3 +160,10 @@ flash: $(PROJECT).jic
 
 # bitstream normally works but verify dumps some error (CRC)
 #	$(quartus_env); quartus_pgm --no_banner --mode=jtag -o "IPV;$(PROJECT).jic"
+
+flash_svf: $(PROJECT)_flash.svf
+
+$(PROJECT)_flash.svf: $(PROJECT).jic
+	$(quartus_env); quartus_cpf \
+	-c -q 8MHz -g 3.3 -n p \
+	$(PROJECT).jic $(PROJECT)_flash.svf
