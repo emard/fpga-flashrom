@@ -21,6 +21,7 @@ port
   ftdi_bdbus1  : in  std_logic;
   ftdi_bdbus2  : out std_logic;
   ftdi_bdbus3  : in  std_logic;
+--  C-port doesn't work
 --  ftdi_cdbus0  : in  std_logic;
 --  ftdi_cdbus1  : in  std_logic;
 --  ftdi_cdbus2  : out std_logic;
@@ -40,10 +41,10 @@ end;
 architecture struct of altera_flashrom is
   alias clk         : std_logic is clock_50a  ;
 
---  alias ftdi_bdbus0   : std_logic is uart1_rxd  ;
---  alias ftdi_bdbus1   : std_logic is uart1_txd  ;
---  alias ftdi_bdbus2   : std_logic is uart1_cts  ;
---  alias ftdi_bdbus3   : std_logic is uart1_rts  ;
+--  alias ftdi_bdbus0   : std_logic is uart1_rxd;
+--  alias ftdi_bdbus1   : std_logic is uart1_txd;
+--  alias ftdi_bdbus2   : std_logic is uart1_cts;
+--  alias ftdi_bdbus3   : std_logic is uart1_rts;
 
 --  alias flash_clk   : std_logic is dclk       ;
 --  alias flash_mosi  : std_logic is as_data0   ;
@@ -54,10 +55,10 @@ architecture struct of altera_flashrom is
 
 begin
 
---  flash_clk   <= uart1_rxd  ; -- dbus0
---  flash_mosi  <= uart1_txd  ; -- dbus1
---  uart1_cts   <= flash_miso ; -- dbus2
---  flash_csn   <= uart1_rts  ; -- dbus3
+--  flash_clk   <= ftdi_bdbus0 ;
+--  flash_mosi  <= ftdi_bdbus1 ;
+--  ftdi_bdbus2 <= flash_miso  ;
+--  flash_csn   <= ftdi_bdbus3 ;
 --  flash_wpn   <= '1';
 --  flash_holdn <= '1';
 
