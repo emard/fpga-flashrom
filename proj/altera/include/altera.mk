@@ -95,6 +95,9 @@ $(PROJECT).sof: map fit asm sta smart
 $(PROJECT).jic: $(PROJECT).sof
 	$(quartus_env); quartus_cpf -c -d $(CONFIG_DEVICE) -s $(SERIAL_FLASH_LOADER_DEVICE) $(PROJECT).sof $(PROJECT).jic
 
+$(PROJECT).rbf: $(PROJECT).sof
+	$(quartus_env); quartus_cpf -c $(PROJECT).sof $(PROJECT).rbf
+
 $(PROJECT).svf: $(PROJECT).sof
 	$(quartus_env); quartus_cpf -c -q $(OPENOCD_SVF_CLOCK) -g 3.3 -n p $(PROJECT).sof $(PROJECT).svf
 
@@ -167,3 +170,6 @@ $(PROJECT)_flash.svf: $(PROJECT).jic
 	$(quartus_env); quartus_cpf \
 	-c -q 8MHz -g 3.3 -n p \
 	$(PROJECT).jic $(PROJECT)_flash.svf
+
+flash_ofl: $(PROJECT).rbf
+	openFPGALoader -c ft4232 --fpga-part 5CE423 -f $(PROJECT).rbf
