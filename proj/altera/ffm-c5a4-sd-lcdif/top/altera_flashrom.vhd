@@ -33,6 +33,8 @@ port
 --  epcs_data2 : out std_logic; -- 1
 --  epcs_data3 : out std_logic; -- 1
 --  epcs_ncso  : out std_logic;
+  -- LEDs on PS/2
+  fio        : inout std_logic_vector(23 downto 0);
   -- LED
   led        : out std_logic_vector(2 downto 0)
 );
@@ -53,6 +55,9 @@ architecture struct of altera_flashrom is
 --  alias flash_wpn   : std_logic is epcs_data2 ;
 --  alias flash_holdn : std_logic is epcs_data3 ;
 
+  alias led_ps2_green: std_logic is fio(5); -- green LED
+  alias led_ps2_red:   std_logic is fio(7); -- red LED
+
 begin
 
 --  flash_clk   <= ftdi_bdbus0 ;
@@ -67,6 +72,9 @@ begin
   led(0)      <= ftdi_bdbus0;
   led(1)      <= ftdi_bdbus1;
   led(2)      <= ftdi_bdbus3;
+
+  led_ps2_red   <= '0';
+  led_ps2_green <= '1';
 
 --  led(0)      <= ftdi_cdbus0;
 --  led(1)      <= ftdi_cdbus1;
