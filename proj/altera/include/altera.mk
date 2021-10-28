@@ -45,7 +45,7 @@ all: $(PROJECT).sof $(PROJECT).svf
 
 clean:
 	rm -rf *~ $(PROJECT).jdi $(PROJECT).jic $(PROJECT).pin $(PROJECT).qws $(PROJECT).sld \
-	       *.rpt *.chg smart.log *.htm *.eqn *.sof *.svf *.pof *.smsg *.summary \
+	       *.rpt *.chg smart.log *.htm *.eqn *.sof *.svf *.pof *.rbf *.jic *.smsg *.summary \
 	       f32c_dual_boot.map f32c_dual_boot*.rpd cfm.bin  \
 	       PLL*INFO.txt c5_pin_model_dump.txt \
 	       db incremental_db output_files greybox_tmp cr_ie_info.json \
@@ -95,8 +95,16 @@ $(PROJECT).sof: map fit asm sta smart
 $(PROJECT).jic: $(PROJECT).sof
 	$(quartus_env); quartus_cpf -c -d $(CONFIG_DEVICE) -s $(SERIAL_FLASH_LOADER_DEVICE) $(PROJECT).sof $(PROJECT).jic
 
+$(PROJECT).pof: $(PROJECT).sof
+	$(quartus_env); quartus_cpf -c -d $(CONFIG_DEVICE) $(PROJECT).sof $(PROJECT).pof
+
 $(PROJECT).rbf: $(PROJECT).sof
-	$(quartus_env); quartus_cpf -c $(PROJECT).sof $(PROJECT).rbf
+	$(quartus_env); quartus_cpf -c \
+	-o bitstream_compression=on \
+	$(PROJECT).sof $(PROJECT).rbf
+
+#	--start_address 0 \
+#	--sfl_device $(CONFIG_DEVICE) \
 
 $(PROJECT).svf: $(PROJECT).sof
 	$(quartus_env); quartus_cpf -c -q $(OPENOCD_SVF_CLOCK) -g 3.3 -n p $(PROJECT).sof $(PROJECT).svf
@@ -148,6 +156,9 @@ prog: $(PROJECT).sof
 prog_ocd: $(PROJECT).svf
 	openocd --file=$(OPENOCD_INTERFACE) --file=$(OPENOCD_BOARD)
 
+flash_ocd: $(PROJECT)_flash.svf
+	openocd --file=$(OPENOCD_INTERFACE) --file=$(OPENOCD_BOARD_FLASH)
+
 prog_ofl: $(PROJECT).svf
 	openFPGALoader -c ft4232 $(PROJECT).svf
 
@@ -171,5 +182,9 @@ $(PROJECT)_flash.svf: $(PROJECT).jic
 	-c -q 8MHz -g 3.3 -n p \
 	$(PROJECT).jic $(PROJECT)_flash.svf
 
-flash_ofl: $(PROJECT).rbf
-	openFPGALoader -c ft4232 --fpga-part 5CE423 -f $(PROJECT).rbf
+# any normal bitstream must be uploaded to SRAM
+# before before spioverjtag is uploaded to SRAM
+flash_ofl: $(PROJECT).rbf $(PROJECT).svf
+	/tmp/openFPGALoader/build/openFPGALoader -c ft4232 $(PROJECT).svf
+	/tmp/openFPGALoader/build/openFPGALoader -c ft4232 --fpga-part 5CE423 --file-type rbf -f $(PROJECT).rbf
+	#/tmp/openFPGALoader/build/openFPGALoader -c ft4232 --fpga-part 5CE423 --file-type bin -f $(PROJECT).rbf
