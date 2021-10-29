@@ -113,7 +113,10 @@ $(PROJECT).rbf: $(PROJECT).sof
 #	--sfl_device $(CONFIG_DEVICE) \
 
 $(PROJECT).svf: $(PROJECT).sof
-	$(quartus_env); quartus_cpf -c -q $(OPENOCD_SVF_CLOCK) -g 3.3 -n p $(PROJECT).sof $(PROJECT).svf
+	$(quartus_env); quartus_cpf -c \
+	-q $(OPENOCD_SVF_CLOCK) -g 3.3 -n p \
+	-o bitstream_compression=on \
+	$(PROJECT).sof $(PROJECT).svf
 
 # http://dangerousprototypes.com/docs/JTAG_SVF_to_XSVF_file_converter
 # executable svf2xsvf502 is in zip file under old subdirectory:
