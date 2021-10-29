@@ -182,9 +182,23 @@ $(PROJECT)_flash.svf: $(PROJECT).jic
 	-c -q 8MHz -g 3.3 -n p \
 	$(PROJECT).jic $(PROJECT)_flash.svf
 
+# hack convert ".jic" to ".rbf" file
+# from start of .jic file, skip some ASCII and NULL bytes until first
+# occurence of 0xFF is found. Copy from first 0xFF until last 0xFF.
+# Last 0xFF comes in a series of many 0xFF, indicating of end of flash.
+# after last 0xFF some ASCII and NULL bytes are expected.
+$(PROJECT)_flash.rbf: $(PROJECT).jic
+	./jic2rbf.py $(PROJECT).jic $(PROJECT)_flash.rbf
+
+# this is crude replacement of above that skips start
+# with hardcoded number of bytes
+# dd if=$(PROJECT).jic of=$(PROJECT)_flash.rbf bs=1 count=8M skip=154
+
 # any normal bitstream must be uploaded to SRAM
 # before before spioverjtag is uploaded to SRAM
-flash_ofl: $(PROJECT).rbf $(PROJECT).svf
+# rbf file type is "reverse bits file" MSB-LSB bits in each byte are reversed and flashed to chip
+# bin file type is direct, unchanged content is flashed to chip
+flash_ofl: $(PROJECT)_flash.rbf $(PROJECT).svf
 	/tmp/openFPGALoader/build/openFPGALoader -c ft4232 $(PROJECT).svf
-	/tmp/openFPGALoader/build/openFPGALoader -c ft4232 --fpga-part 5CE423 --file-type rbf -f $(PROJECT).rbf
-	#/tmp/openFPGALoader/build/openFPGALoader -c ft4232 --fpga-part 5CE423 --file-type bin -f $(PROJECT).rbf
+	/tmp/openFPGALoader/build/openFPGALoader -c ft4232 --fpga-part 5CE423 \
+	--file-type rbf -f $(PROJECT)_flash.rbf
