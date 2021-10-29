@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # usage:
-# jic2rbf.py size project.jic project.rbf
+# jic2rbf.py project.jic project.rbf
 
 from sys import argv
 
