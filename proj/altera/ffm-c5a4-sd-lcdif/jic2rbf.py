@@ -21,7 +21,7 @@ dst.write(b)
 # copy until end of file or detected end of flash
 ffcount = 0
 while src.readinto(b):
-  # detected end of flash
+  # detecting end of flash
   if b[0] == 0xFF:
     ffcount += 1
   else:
