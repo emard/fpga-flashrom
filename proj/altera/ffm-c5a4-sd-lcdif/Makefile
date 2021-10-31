@@ -13,6 +13,7 @@ ASSIGNMENT_FILES = $(PROJECT).qpf $(PROJECT).qsf
 # Part, Family, Boardfile
 FAMILY = "Cyclone V"
 PART = 5CEBA4F23C7
+SPIOVERJTAG_BRIDGE = 5CE423
 #BOARDFILE = ffm-c5a4-sd-v2r0-0.board
 BOARDFILE = FFM-C5A4-SD-V3r0_mit_FFC-CA7-V2r0.board
 CONFIG_DEVICE = EPCS64
@@ -23,6 +24,7 @@ OPENOCD_BOARD_FLASH=ffm-fpga-c5a4-flash.ocd
 OPENOCD_INTERFACE=ft4232.ocd
 # OPENOCD_INTERFACE=remote.ocd
 OPENOCD_SVF_CLOCK=33MHz
+OPENFPGALOADER=/tmp/openFPGALoader/build/openFPGALoader
 
 # JTAG ID 0x02b050dd
 # /opt/altera/intelFPGA_lite/20.1/quartus/common/devinfo/programmer/sfl_enhanced_01_02b050dd.sof
@@ -50,7 +52,7 @@ SRCS = \
 top/altera_flashrom.vhd \
 
 test:
-	/usr/sbin/flashrom -p ft2232_spi:type=4232H,port=B,divisor=100000
+	/usr/sbin/flashrom -p ft2232_spi:type=4232H,port=B,divisor=8
 
 testc:
 	/usr/sbin/flashrom -p ft2232_spi:type=4232H,port=C,divisor=100000
