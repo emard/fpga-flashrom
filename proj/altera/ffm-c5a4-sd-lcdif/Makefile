@@ -55,4 +55,4 @@ test:
 	/usr/sbin/flashrom -p ft2232_spi:type=4232H,port=B,divisor=8
 
 testc:
-	/usr/sbin/flashrom -p ft2232_spi:type=4232H,port=C,divisor=100000
+	/usr/sbin/flashrom -p ft2232_spi:type=4232H,port=C,divisor=8

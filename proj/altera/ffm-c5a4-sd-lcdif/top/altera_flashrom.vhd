@@ -17,26 +17,20 @@ port
 --  uart1_txd  : in  std_logic; -- bdbus1
 --  uart1_cts  : out std_logic; -- bdbus2
 --  uart1_rts  : in  std_logic; -- bdbus3
+  -- B-port works on new module with 3 LEDs
   ftdi_bdbus0  : in  std_logic;
   ftdi_bdbus1  : in  std_logic;
   ftdi_bdbus2  : out std_logic;
   ftdi_bdbus3  : in  std_logic;
---  C-port doesn't work
+  -- C-port doesn't work
 --  ftdi_cdbus0  : in  std_logic;
 --  ftdi_cdbus1  : in  std_logic;
 --  ftdi_cdbus2  : out std_logic;
 --  ftdi_cdbus3  : in  std_logic;
-  -- FLASH (SPI)
---  dclk       : out std_logic; -- clk
---  as_data0   : out std_logic; -- mosi
---  epcs_data1 : in  std_logic; -- miso
---  epcs_data2 : out std_logic; -- 1
---  epcs_data3 : out std_logic; -- 1
---  epcs_ncso  : out std_logic;
   -- LEDs on PS/2
-  fio        : inout std_logic_vector(23 downto 0);
+  fio          : inout std_logic_vector(7 downto 0);
   -- LED
-  led        : out std_logic_vector(2 downto 0)
+  led          : out std_logic_vector(2 downto 0)
 );
 end;
 
@@ -82,8 +76,7 @@ architecture struct of altera_flashrom is
   );
   END COMPONENT;
 
-  signal not_ftdi_bdbus3 : std_logic;
-  signal mosi: std_logic;
+  signal csn, sck, miso, mosi: std_logic;
 begin
 
 --  flash_clk   <= ftdi_bdbus0 ;
@@ -93,12 +86,11 @@ begin
 --  flash_wpn   <= '1';
 --  flash_holdn <= '1';
 
-  not_ftdi_bdbus3 <= not ftdi_bdbus3;
   spiflash: altserial_flash_loader
   GENERIC MAP
   (
-    -- .INTENDED_DEVICE_FAMILY  ("Cyclone 10 LP"),
-    -- .INTENDED_DEVICE_FAMILY  ("Cyclone IV E"),
+    -- INTENDED_DEVICE_FAMILY  => "Cyclone 10 LP",
+    -- INTENDED_DEVICE_FAMILY  => "Cyclone IV E",
     INTENDED_DEVICE_FAMILY  => "Cyclone V",
     ENHANCED_MODE           => 1,
     ENABLE_SHARED_ACCESS    => "ON",
@@ -107,10 +99,10 @@ begin
   )
   PORT MAP
   (
-    dclkin   => ftdi_bdbus0,
-    sdoin    => ftdi_bdbus1,
-    data0out => mosi,
-    scein    => ftdi_bdbus3,
+    dclkin   => sck,  -- ftdi_bdbus0,
+    sdoin    => mosi, -- ftdi_bdbus1,
+    data0out => miso, -- ftdi_bdbus2,
+    scein    => csn,  -- ftdi_bdbus3,
     data_in  => x"0",
     data_oe  => x"0",
     data_out => open,
@@ -118,17 +110,18 @@ begin
     asmi_access_granted => '1',
     asmi_access_request => open
   );
-  ftdi_bdbus2 <= mosi;
 
-  led(0)      <= ftdi_bdbus0;
-  led(1)      <= ftdi_bdbus1;
-  led(2)      <= mosi;
+  sck  <= ftdi_bdbus0;
+  mosi <= ftdi_bdbus1;
+  ftdi_bdbus2 <= miso;
+  --ftdi_bdbus2 <= ftdi_bdbus1; -- loopback for debug
+  csn  <= ftdi_bdbus3;
 
-  led_ps2_red   <= ftdi_bdbus0;
-  led_ps2_green <= ftdi_bdbus3;
+  led(0)      <= sck;  -- green
+  led(1)      <= mosi; -- yellow
+  led(2)      <= miso; -- red
 
---  led(0)      <= ftdi_cdbus0;
---  led(1)      <= ftdi_cdbus1;
---  led(2)      <= ftdi_cdbus3;
+  led_ps2_green <= mosi;
+  led_ps2_red   <= miso;
 
 end struct;
