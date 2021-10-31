@@ -17,19 +17,19 @@ port
 --  uart1_txd  : in  std_logic; -- bdbus1
 --  uart1_cts  : out std_logic; -- bdbus2
 --  uart1_rts  : in  std_logic; -- bdbus3
-  -- B-port works on new module with 3 LEDs
+  -- B-port works on new module V4r0 with 3 LEDs
   ftdi_bdbus0  : in  std_logic;
   ftdi_bdbus1  : in  std_logic;
   ftdi_bdbus2  : out std_logic;
   ftdi_bdbus3  : in  std_logic;
-  -- C-port doesn't work
---  ftdi_cdbus0  : in  std_logic;
---  ftdi_cdbus1  : in  std_logic;
---  ftdi_cdbus2  : out std_logic;
---  ftdi_cdbus3  : in  std_logic;
-  -- LEDs on PS/2
-  fio          : inout std_logic_vector(7 downto 0);
-  -- LED
+  -- C-port doesn't work on old module V2r0 with 1 LED
+  --ftdi_cdbus0  : in  std_logic;
+  --ftdi_cdbus1  : in  std_logic;
+  --ftdi_cdbus2  : out std_logic;
+  --ftdi_cdbus3  : in  std_logic;
+  -- LEDs on PS/2 pinout for old module V2r0
+  --fio          : inout std_logic_vector(7 downto 0);
+  -- LEDs on V4r0
   led          : out std_logic_vector(2 downto 0)
 );
 end;
@@ -42,15 +42,15 @@ architecture struct of altera_flashrom is
   --alias ftdi_bdbus2   : std_logic is uart1_cts;
   --alias ftdi_bdbus3   : std_logic is uart1_rts;
 
---  alias flash_clk   : std_logic is dclk       ;
---  alias flash_mosi  : std_logic is as_data0   ;
---  alias flash_miso  : std_logic is epcs_data1 ;
---  alias flash_csn   : std_logic is epcs_ncso  ;
---  alias flash_wpn   : std_logic is epcs_data2 ;
---  alias flash_holdn : std_logic is epcs_data3 ;
+  --alias flash_clk   : std_logic is dclk       ;
+  --alias flash_mosi  : std_logic is as_data0   ;
+  --alias flash_miso  : std_logic is epcs_data1 ;
+  --alias flash_csn   : std_logic is epcs_ncso  ;
+  --alias flash_wpn   : std_logic is epcs_data2 ;
+  --alias flash_holdn : std_logic is epcs_data3 ;
 
-  alias led_ps2_green: std_logic is fio(5); -- green LED
-  alias led_ps2_red:   std_logic is fio(7); -- red LED
+  --alias led_ps2_green: std_logic is fio(5); -- green LED
+  --alias led_ps2_red:   std_logic is fio(7); -- red LED
 
   COMPONENT altserial_flash_loader
   GENERIC
@@ -121,7 +121,7 @@ begin
   led(1)      <= mosi; -- yellow
   led(2)      <= miso; -- red
 
-  led_ps2_green <= mosi;
-  led_ps2_red   <= miso;
+  -- led_ps2_green <= mosi;
+  -- led_ps2_red   <= miso;
 
 end struct;
