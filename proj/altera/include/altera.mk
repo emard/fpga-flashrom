@@ -222,3 +222,8 @@ flash_rbf_ofl: $(PROJECT).rbf $(PROJECT).svf
 	$(OPENFPGALOADER) -c ft4232 $(PROJECT).svf
 	$(OPENFPGALOADER) -c ft4232 --fpga-part $(SPIOVERJTAG_BRIDGE) \
 	--file-type rbf -f $(PROJECT).rbf
+
+bridge.svf: /opt/altera/intelFPGA_lite/20.1/quartus/common/devinfo/programmer/sfl_enhanced_01_02b050dd.sof
+	$(quartus_env); quartus_cpf \
+	-c -q 8MHz -g 3.3 -n p \
+	$< $@
