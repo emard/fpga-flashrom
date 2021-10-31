@@ -48,7 +48,7 @@ all: $(PROJECT).sof $(PROJECT).svf
 
 clean:
 	rm -rf *~ $(PROJECT).jdi $(PROJECT).jic $(PROJECT).pin $(PROJECT).qws $(PROJECT).sld \
-	       *.rpt *.chg smart.log *.htm *.eqn *.sof *.svf *.pof *.rbf *.jic *.smsg *.summary \
+	       *.rpt *.chg smart.log *.htm *.eqn *.sof *.svf *.pof *.rbf *.jic *.bit *.smsg *.summary \
 	       f32c_dual_boot.map f32c_dual_boot*.rpd cfm.bin  \
 	       PLL*INFO.txt c5_pin_model_dump.txt \
 	       db incremental_db output_files greybox_tmp cr_ie_info.json \
