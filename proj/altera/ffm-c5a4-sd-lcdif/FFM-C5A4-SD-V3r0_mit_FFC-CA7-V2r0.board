@@ -6,6 +6,7 @@
 # Created:   21.02.2018 16:06:09
 
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+set_global_assignment -name STRATIXV_CONFIGURATION_SCHEME "ACTIVE SERIAL X4"
 
 #
 #	Clocks 50MHz, Resets & LEDs
