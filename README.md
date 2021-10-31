@@ -26,9 +26,9 @@ Upload bitstream with openFPGALoader:
 
     make prog_ofl
 
-or with opencd:
+or with openocd:
 
-    make prog_ocd # openocd
+    make prog_ocd
 
 Check that it works:
 
