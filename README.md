@@ -20,6 +20,10 @@ the FT2232/4232 pins are labeled as ther JTAG or RS232 role.
 | HOLDn |  IO3  |  VCC   | VCC  |  VCC  |
 | GND   |  GND  |  GND   | GND  |  GND  |
 
-Attempt for altera, doesn't work because
-it is not known to author how to set compiler
-options to make SPI FLASH passthru.
+Usage:
+
+    make prog_ofl
+    make test
+    ...
+    Found Winbond flash chip "W25Q64.V" (8192 kB, SPI) on ft2232_spi.
+    ...
