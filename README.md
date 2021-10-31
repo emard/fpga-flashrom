@@ -22,8 +22,29 @@ the FT2232/4232 pins are labeled as ther JTAG or RS232 role.
 
 Usage:
 
+Upload bitstream with openFPGALoader:
+
     make prog_ofl
+
+or with opencd:
+
+    make prog_ocd # openocd
+
+Check that it works:
+
     make test
     ...
     Found Winbond flash chip "W25Q64.V" (8192 kB, SPI) on ft2232_spi.
     ...
+
+use "flashrom" utility to write bitstream to FLASH:
+
+    make flash_rom
+
+use "openFPGALoader" utility to write bitstream to FLASH:
+
+    make flash_ofl
+
+use native utility and Altera USB Blaster to write bitstream to FLASH:
+
+    make flash
