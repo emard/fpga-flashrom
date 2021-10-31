@@ -43,10 +43,10 @@ end;
 architecture struct of altera_flashrom is
   alias clk         : std_logic is clock_50a  ;
 
---  alias ftdi_bdbus0   : std_logic is uart1_rxd;
---  alias ftdi_bdbus1   : std_logic is uart1_txd;
---  alias ftdi_bdbus2   : std_logic is uart1_cts;
---  alias ftdi_bdbus3   : std_logic is uart1_rts;
+  --alias ftdi_bdbus0   : std_logic is uart1_rxd;
+  --alias ftdi_bdbus1   : std_logic is uart1_txd;
+  --alias ftdi_bdbus2   : std_logic is uart1_cts;
+  --alias ftdi_bdbus3   : std_logic is uart1_rts;
 
 --  alias flash_clk   : std_logic is dclk       ;
 --  alias flash_mosi  : std_logic is as_data0   ;
@@ -58,6 +58,32 @@ architecture struct of altera_flashrom is
   alias led_ps2_green: std_logic is fio(5); -- green LED
   alias led_ps2_red:   std_logic is fio(7); -- red LED
 
+  COMPONENT altserial_flash_loader
+  GENERIC
+  (
+    intended_device_family  : STRING  ;
+    enhanced_mode           : NATURAL ;
+    enable_shared_access    : STRING  ;
+    enable_quad_spi_support : NATURAL ;
+    ncso_width              : NATURAL
+  );
+  PORT
+  (
+    dclkin                  : in  std_logic;
+    scein                   : in  std_logic;
+    sdoin                   : in  std_logic;
+    data0out                : out std_logic;
+    data_in                 : in  std_logic_vector(3 downto 0);
+    data_oe                 : in  std_logic_vector(3 downto 0);
+    data_out                : out std_logic_vector(3 downto 0);
+    noe                     : in  std_logic;
+    asmi_access_granted     : in  std_logic;
+    asmi_access_request     : out std_logic
+  );
+  END COMPONENT;
+
+  signal not_ftdi_bdbus3 : std_logic;
+  signal mosi: std_logic;
 begin
 
 --  flash_clk   <= ftdi_bdbus0 ;
@@ -67,14 +93,39 @@ begin
 --  flash_wpn   <= '1';
 --  flash_holdn <= '1';
 
-  ftdi_bdbus2 <= ftdi_bdbus1; -- loopback MISO-MOSI
+  not_ftdi_bdbus3 <= not ftdi_bdbus3;
+  spiflash: altserial_flash_loader
+  GENERIC MAP
+  (
+    -- .INTENDED_DEVICE_FAMILY  ("Cyclone 10 LP"),
+    -- .INTENDED_DEVICE_FAMILY  ("Cyclone IV E"),
+    INTENDED_DEVICE_FAMILY  => "Cyclone V",
+    ENHANCED_MODE           => 1,
+    ENABLE_SHARED_ACCESS    => "ON",
+    ENABLE_QUAD_SPI_SUPPORT => 0,
+    NCSO_WIDTH              => 1
+  )
+  PORT MAP
+  (
+    dclkin   => ftdi_bdbus0,
+    sdoin    => ftdi_bdbus1,
+    data0out => mosi,
+    scein    => ftdi_bdbus3,
+    data_in  => x"0",
+    data_oe  => x"0",
+    data_out => open,
+    noe      => '0',
+    asmi_access_granted => '1',
+    asmi_access_request => open
+  );
+  ftdi_bdbus2 <= mosi;
 
   led(0)      <= ftdi_bdbus0;
   led(1)      <= ftdi_bdbus1;
-  led(2)      <= ftdi_bdbus3;
+  led(2)      <= mosi;
 
-  led_ps2_red   <= '0';
-  led_ps2_green <= '1';
+  led_ps2_red   <= ftdi_bdbus0;
+  led_ps2_green <= ftdi_bdbus3;
 
 --  led(0)      <= ftdi_cdbus0;
 --  led(1)      <= ftdi_cdbus1;
