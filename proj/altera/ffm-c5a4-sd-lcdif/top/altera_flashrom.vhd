@@ -1,6 +1,7 @@
 ----------------------------
--- ULX3S Top level for MINIMIG
--- http://github.com/emard
+-- For FFM/FFC board
+-- AUTHOR=EMARD
+-- LICENSE=MIT
 ----------------------------
 
 library IEEE;
